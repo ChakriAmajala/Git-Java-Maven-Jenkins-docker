@@ -1,0 +1,4 @@
+# Application configuration
+server.port=8080
+spring.application.name=demo-app
+
