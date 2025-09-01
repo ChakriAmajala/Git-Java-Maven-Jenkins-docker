@@ -1,8 +1,9 @@
-FROM openjdk:11
+# Base image - Nginx
+FROM nginx:alpine
 
-WORKDIR /app
+# Copy HTML, CSS, JS files into nginx html folder
+COPY src/ /usr/share/nginx/html/
 
-COPY target/*.jar app.jar
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Expose port 80 for container
+EXPOSE 80
 

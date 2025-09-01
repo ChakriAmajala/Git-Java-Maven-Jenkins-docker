@@ -8,24 +8,25 @@ pipeline {
             }
         }
 
-        stage('Build with Maven') {
-            steps {
-                sh 'mvn clean package -DskipTests'
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t git-java-maven-jenkins-docker:latest .'
+                script {
+                    sh 'docker build -t my-html-app .'
+                }
             }
         }
 
         stage('Run Container') {
             steps {
-                sh '''
-                docker rm -f git-java-maven-jenkins-container || true
-                docker run -d -p 8081:8080 --name git-java-maven-jenkins-container git-java-maven-jenkins-docker:latest
-                '''
+                script {
+                    sh '''
+                    # stop & remove old container if running
+                    docker rm -f my-html-app || true
+
+                    # run new container
+                    docker run -d -p 8088:80 --name my-html-app my-html-app
+                    '''
+                }
             }
         }
     }
